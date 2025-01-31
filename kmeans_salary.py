@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.cluster import KMeans
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
-from sklearn.decomposition import PCA  # For visualization
+from sklearn.decomposition import PCA
 
 # ---------------------------
 # 1. Load and Preprocess Data
@@ -17,6 +17,12 @@ try:
 except ImportError:
     df = pd.read_csv("Ask A Manager Salary Survey 2021 (Responses).csv")
 
+# Rename columns for simplicity
+df = df.rename(columns={
+    "highest level of education completed": "education",
+    "overall years of professional experience": "experience"
+})
+
 # Convert currency to USD
 exchange_rates = {"gbp": 1.37, "cad": 0.79, "usd": 1.0, "eur": 1.18}
 df["annual_salary_usd"] = df.apply(
@@ -25,7 +31,7 @@ df["annual_salary_usd"] = df.apply(
 )
 
 # Select relevant features
-features = ["industry", "education", "overall years of professional experience", "annual_salary_usd"]
+features = ["industry", "education", "experience", "annual_salary_usd"]
 df = df[features].dropna()
 
 # Clean categorical features
@@ -37,9 +43,9 @@ df["education"] = df["education"].str.lower().str.replace("'", "")
 # ---------------------------
 # Define categorical and numerical features
 categorical_features = ["industry", "education"]
-numerical_features = ["annual_salary_usd", "overall years of professional experience"]
+numerical_features = ["annual_salary_usd", "experience"]
 
-# Create a preprocessing pipeline
+# Create preprocessing pipeline
 preprocessor = ColumnTransformer(
     transformers=[
         ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_features),
@@ -59,7 +65,7 @@ for k in range(1, 11):
     kmeans.fit(X)
     wcss.append(kmeans.inertia_)
 
-# Plot the Elbow Curve
+# Plot Elbow Curve
 plt.figure(figsize=(10, 6))
 plt.plot(range(1, 11), wcss, marker="o", linestyle="--")
 plt.xlabel("Number of Clusters (K)")
@@ -74,15 +80,14 @@ plt.show()
 kmeans = KMeans(n_clusters=4, random_state=42)
 clusters = kmeans.fit_predict(X)
 
-# Add clusters to the original dataframe
+# Add clusters to dataframe
 df["cluster"] = clusters
 
 # ---------------------------
-# 5. Visualize Clusters (PCA for Dimensionality Reduction)
+# 5. Visualize Clusters (PCA)
 # ---------------------------
-# Reduce features to 2D for visualization
 pca = PCA(n_components=2)
-X_pca = pca.fit_transform(X.toarray())  # Use .toarray() if X is sparse
+X_pca = pca.fit_transform(X.toarray())
 
 plt.figure(figsize=(10, 6))
 scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=clusters, cmap="viridis", alpha=0.6)
@@ -95,10 +100,9 @@ plt.show()
 # ---------------------------
 # 6. Interpret Clusters
 # ---------------------------
-# Analyze cluster characteristics
 cluster_summary = df.groupby("cluster").agg({
     "annual_salary_usd": ["mean", "std"],
-    "overall years of professional experience": ["mean", "std"],
+    "experience": ["mean", "std"],
     "industry": lambda x: x.mode()[0],
     "education": lambda x: x.mode()[0]
 }).reset_index()
