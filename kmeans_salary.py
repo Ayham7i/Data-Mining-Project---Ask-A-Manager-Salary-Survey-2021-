@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.cluster import KMeans
 from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
 from sklearn.decomposition import PCA
 
 # ---------------------------
@@ -17,7 +15,7 @@ try:
 except ImportError:
     df = pd.read_csv("Ask A Manager Salary Survey 2021 (Responses).csv")
 
-# Rename columns for simplicity
+# Rename columns
 df = df.rename(columns={
     "highest level of education completed": "education",
     "overall years of professional experience": "experience"
@@ -87,7 +85,7 @@ df["cluster"] = clusters
 # 5. Visualize Clusters (PCA)
 # ---------------------------
 pca = PCA(n_components=2)
-X_pca = pca.fit_transform(X.toarray())
+X_pca = pca.fit_transform(X.toarray())  # Use .toarray() if X is sparse
 
 plt.figure(figsize=(10, 6))
 scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=clusters, cmap="viridis", alpha=0.6)
@@ -108,4 +106,4 @@ cluster_summary = df.groupby("cluster").agg({
 }).reset_index()
 
 print("\nCluster Summary:")
-print(cluster_summary)
+print(cluster_summary.to_string())  # Use .to_string() for better formatting
