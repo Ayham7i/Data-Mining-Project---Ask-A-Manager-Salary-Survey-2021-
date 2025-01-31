@@ -28,6 +28,9 @@ df["annual_salary_usd"] = df.apply(
     axis=1
 )
 
+# Remove outliers (e.g., salaries above $500,000)
+df = df[df["annual_salary_usd"] <= 500000]
+
 # Convert experience to numerical (use midpoints)
 experience_mapping = {
     "1 year or less": 1,
@@ -54,7 +57,7 @@ df["education"] = df["education"].str.lower().str.replace("'", "")
 # ---------------------------
 # Define categorical and numerical features
 categorical_features = ["industry", "education"]
-numerical_features = ["annual_salary_usd", "experience"]  # Now numerical!
+numerical_features = ["annual_salary_usd", "experience"]
 
 # Create preprocessing pipeline
 preprocessor = ColumnTransformer(
