@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import CategoricalNB
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
 # ---------------------------
 # 1. Load and Preprocess Data
@@ -86,3 +88,25 @@ salary_labels = encoders[target].classes_
 print("Accuracy:", accuracy_score(y_test, y_pred))
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred, target_names=salary_labels))
+
+# ---------------------------
+# 5. Visualize Results
+# ---------------------------
+# Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=salary_labels, yticklabels=salary_labels)
+plt.title("Confusion Matrix")
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.show()
+
+# Bar Chart: Actual vs Predicted
+plt.figure(figsize=(10, 6))
+plt.bar(salary_labels, [sum(y_test == i) for i in range(len(salary_labels))], label="Actual", alpha=0.7)
+plt.bar(salary_labels, [sum(y_pred == i) for i in range(len(salary_labels))], label="Predicted", alpha=0.7)
+plt.title("Actual vs Predicted Salary Brackets")
+plt.xlabel("Salary Bracket")
+plt.ylabel("Count")
+plt.legend()
+plt.show()
