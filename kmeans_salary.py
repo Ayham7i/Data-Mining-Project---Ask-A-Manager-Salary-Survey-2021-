@@ -28,6 +28,19 @@ df["annual_salary_usd"] = df.apply(
     axis=1
 )
 
+# Convert experience to numerical (use midpoints)
+experience_mapping = {
+    "1 year or less": 1,
+    "2 - 4 years": 3,
+    "5-7 years": 6,
+    "8 - 10 years": 9,
+    "11 - 20 years": 15,
+    "21 - 30 years": 25,
+    "31 - 40 years": 35,
+    "41 years or more": 45
+}
+df["experience"] = df["experience"].map(experience_mapping)
+
 # Select relevant features
 features = ["industry", "education", "experience", "annual_salary_usd"]
 df = df[features].dropna()
@@ -41,7 +54,7 @@ df["education"] = df["education"].str.lower().str.replace("'", "")
 # ---------------------------
 # Define categorical and numerical features
 categorical_features = ["industry", "education"]
-numerical_features = ["annual_salary_usd", "experience"]
+numerical_features = ["annual_salary_usd", "experience"]  # Now numerical!
 
 # Create preprocessing pipeline
 preprocessor = ColumnTransformer(
@@ -85,7 +98,7 @@ df["cluster"] = clusters
 # 5. Visualize Clusters (PCA)
 # ---------------------------
 pca = PCA(n_components=2)
-X_pca = pca.fit_transform(X.toarray())  # Use .toarray() if X is sparse
+X_pca = pca.fit_transform(X.toarray())
 
 plt.figure(figsize=(10, 6))
 scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=clusters, cmap="viridis", alpha=0.6)
@@ -106,4 +119,4 @@ cluster_summary = df.groupby("cluster").agg({
 }).reset_index()
 
 print("\nCluster Summary:")
-print(cluster_summary.to_string())  # Use .to_string() for better formatting
+print(cluster_summary.to_string())
