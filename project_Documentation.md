@@ -48,3 +48,175 @@ Before applying any data mining algorithms, extensive data cleaning and transfor
 
 
 ![Filling missing values for categorical data](image\project_Documentation\1.jpg)
+
+
+
+### 3.2.2. Missing Values in Numerical Data (Salary)
+
+**Method:**
+Missing numerical values (e.g., Salary) were imputed using the median to reduce the influence of outliers.
+
+
+![Filling missing values for numerical data](image\project_Documentation\2.jpg)
+
+
+
+### 3.3. Standardizing Text Data
+
+#### Text Transformation:
+
+All text entries were converted to lowercase for uniformity.
+
+#### Tool Used:
+
+Kutools in Excel was used for bulk text conversion.
+
+
+![converting all dataset text to lowercase](image\project_Documentation\3.jpg)
+
+
+
+## Job Title Correction
+
+### Issue:
+
+The dataset contained job titles with abbreviations like "sr."
+
+### Solution:
+
+Replaced all instances of "sr." with "senior" to maintain consistency.
+
+## 3.4. Data Transformation Summary
+
+### Steps Taken:
+
+#### Download and Initial Inspection:
+
+- Confirmed the dataset had 16 columns and 2066 records.
+
+#### Column Selection:
+
+- Removed unnecessary columns to focus on relevant data.
+
+#### Missing Value Imputation:
+
+- Applied mode-based imputation for categorical columns.
+- Applied median-based imputation for numerical columns.
+
+#### Text Standardization:
+
+- Converted all text to lowercase.
+- Standardized abbreviations (e.g., replacing "sr." with "senior").
+
+### Tools and Software:
+
+#### Microsoft Excel:
+
+- Used for data cleaning, missing value imputation, and text transformation.
+
+#### Kutools for Excel:
+
+- Used for efficient bulk text manipulation.
+
+---
+
+# 4. Data Mining Algorithms Applied
+
+After cleaning the dataset, several data mining algorithms were applied to extract meaningful patterns and build predictive models. These algorithms include:
+
+## 4.1. Apriori Algorithm
+
+### **Purpose**:
+
+- Used for mining frequent itemsets and discovering association rules in the dataset.
+
+### **Application**:
+
+- The Apriori algorithm helped in identifying relationships and co-occurrence patterns among categorical features, such as job roles, industries, and other survey responses.
+
+---
+
+## 4.2. Naive Bayes Classification
+
+### **Purpose**:
+
+- Applied for predictive classification tasks using a probabilistic approach based on Bayes’ theorem.
+
+### **Application**:
+
+- Naive Bayes was used to predict categorical outcomes (for example, predicting the likelihood of a respondent belonging to a certain salary bracket or job category based on their survey responses).
+
+---
+
+## 4.3. ID3 Decision Tree
+
+### **Purpose**:
+
+- Used to create a decision tree based on information gain.
+
+### **Application**:
+
+- The ID3 algorithm was employed to build a decision tree that classified the data based on features such as job title, experience, and salary.
+- This helped in understanding the hierarchical importance of various attributes in determining the target variable.
+
+---
+
+## 4.4. K-Means Clustering
+
+### **Purpose**:
+
+- Applied for segmenting the dataset into clusters based on similarity.
+
+### **Application**:
+
+- K-Means was used to group respondents into clusters that share similar characteristics, such as salary ranges or career progression patterns.
+- This clustering facilitated further analysis of distinct groups within the survey data.
+
+---
+
+# 5. Results and Next Steps
+
+## 5.1. Outcomes
+
+### **Data Quality**:
+
+- The dataset has been successfully cleaned, standardized, and preprocessed, ensuring high data quality and consistency.
+
+### **Algorithm Application**:
+
+- **Apriori**: Revealed key association rules among survey responses.
+- **Naive Bayes**: Provided a probabilistic model for class prediction, aiding in understanding categorical distributions.
+- **ID3 Decision Tree**: Offered insight into the most significant attributes affecting the target variable.
+- **K-Means Clustering**: Helped identify distinct segments within the dataset for further targeted analysis.
+
+---
+
+## 5.2. Next Steps
+
+### **Exploratory Data Analysis (EDA)**:
+
+- Continue with in-depth EDA to visualize and interpret the patterns discovered by the algorithms.
+
+### **Model Refinement**:
+
+- Fine-tune and validate the predictive models built using Naive Bayes and the decision tree.
+
+### **Actionable Insights**:
+
+- Leverage the insights from the Apriori and K-Means analyses to guide strategic decision-making or further research.
+
+---
+
+# 6. Conclusion
+
+This project successfully transformed the raw **"Ask A Manager Salary Survey 2021"** dataset into a clean and standardized format ready for data mining. The process included:
+
+### **Data Cleaning**:
+
+- Removing unnecessary columns, handling missing values, and standardizing text.
+
+### **Algorithm Application**:
+
+- Utilizing the Apriori, Naive Bayes, ID3 Decision Tree, and K-Means algorithms to extract patterns, build predictive models, and segment the data.
+
+The application of these algorithms has provided a multifaceted view of the dataset, setting the stage for further exploration and deeper analysis. Future work will focus on refining these models and interpreting the results to derive actionable business insights.
